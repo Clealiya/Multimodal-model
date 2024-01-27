@@ -1,0 +1,44 @@
+config_metadata: 'Saving time : 01/03/2024, 09:43:42'
+name: 'experiment'
+task: 'video'
+save_experiment: true
+logs: logs
+
+# data options
+data:
+    path: data
+    sequence_size: 20
+    num_frames: 10
+    audio_length: 1000
+    num_features: 709
+    num_classes: 2
+
+# model options
+model:
+    text:
+        pretrained_model_name: 'camembert-base'
+        hidden_size: 768
+    audio:
+        pretrained_model_name: 'facebook/wav2vec2-large-960h'
+    video:
+        hidden_size: 100
+    all:
+        hidden_size: 100
+
+# learning options
+learning:
+    learning_rate: 0.01
+    batch_size: 16
+    epochs: 30
+    device: 'cuda'
+    milesstone: [5, 15]
+    gamma: 0.1
+    loss: 'crossentropy'
+    save_learning_curves: true
+
+# metrics options
+metrics:
+    acc: true
+    precision: true
+    recall: true
+    f1: true

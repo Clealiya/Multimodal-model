@@ -1,0 +1,76 @@
+\documentclass[a4paper]{article}
+\usepackage[french]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{csquotes}   % pour éviter un warning
+\usepackage{graphicx}   % pour les images
+\usepackage{hyperref}   % pour les références
+% \usepackage{amssymb}    % pour les symboles de maths comme \mathbb{R}
+% \usepackage{mathtools}  % pour rajouter \text dans un environment math
+% \usepackage{subcaption} % pour les subfigures
+\usepackage{float}      % pour les figures
+
+\usepackage[style=ieee,backend=biber]{biblatex}
+\addbibresource{ref.bib}
+
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,   % Couleur des liens internes (table des matières, références)
+    citecolor=green,  % Couleur des liens vers les références bibliographiques
+    filecolor=magenta,% Couleur des liens vers les fichiers
+    urlcolor=blue     % Couleur des liens vers les URL
+}
+
+\title{Rapport SAM \\ Modèle multi-modaux}
+\author{Cléa Han, Yanis Labeyrie et Adrien Zabban}
+\date{janvier 2024}
+
+\begin{document}
+
+\maketitle
+\bigskip
+\tableofcontents
+\newpage
+
+\section{Introduction}
+
+Notre projet traite des approches multimodales pour la prédiction de changement de prise de parole dans des conversations naturelles. 
+% Nous nous appuyons sur le corpus de données multimodales appelé Paco-Cheese~\cite{paperswithcode-paco}.
+Les objectifs de ce projet nous permettent d'introduire différentes notions de modalité textuelle, visuelle et auditive, ainsi que de
+comparer et d'explorer différents modèles de traitement multimodaux, et leur fusion entre eux.
+
+\section{Données}
+\input{sections/data.tex}
+
+\section{Traitement unimodale}
+\input{sections/model_unimodal.tex}
+
+\section{Traitement multimodal}
+\input{sections/model_multimodal.tex}
+
+\section{Entraînements}
+\input{sections/train.tex}
+
+\section{Résultats}
+\input{sections/results.tex}
+
+
+\section{Conclusion}
+
+Notre projet a exploré l'utilisation de modèles unimodaux et du multimodaux pour l'analyse dynamique de la conversation en français.
+Nos modèles unimodaux ont été entraînés sur des données textuelles, audio et vidéo séparément. 
+Leurs performances variaient selon le type de données, avec des résultats prometteurs, selon des modalités différentes, pour les données textuelles, audio et vidéo.
+
+Nos modèles multimodaux ont été entraînés en combinant les données textuelles et audio. 
+Les résultats de ces modèles étaient comparables à ceux des meilleurs modèles unimodaux, ce qui indique que les données textuelles et audio contiennent des informations complémentaires.
+C'est pour cela que les résultats des modèles multimodaux ont des performances plutôt similaires au modèle unimodal vidéo. 
+
+Ces résultats suggèrent que les modèles multimodaux, en particulier ceux qui combinent les données textuelles et audio, peuvent être des outils efficaces pour analyser la dynamique conversationnelle. 
+
+Comme perspective, on pourrait explorer différentes manières d'intégrer les trois modalités de données (textes, audios et vidéos) dans un modèle multimodal, 
+ainsi que l'utilisation d'autres types de données ou de modèles d'apprentissage automatique. 
+
+\newpage
+\printbibliography
+
+\end{document}

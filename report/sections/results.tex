@@ -1,0 +1,32 @@
+Après avoir entraîné les modèles, nous avons testé leurs performances sur la base de données de test.
+La Figure~\ref{tab: test} nous alors les résultats des modèles en fonctions des métriques.
+
+\begin{table}[H]
+    \centering
+    \begin{tabular}{|c|c|c|c|c|c|}
+        \hline
+        Modèle & accuracy & precision & rappel & $f_1$ score\\
+        \hline
+        \textit{TEXT} & 82.8 & 41.3 & 50.0 & 45.3\\
+        \hline
+        \textit{AUDIO} & 47.1 & 48.5 & 47.4 & 41.5\\
+        \hline
+        \textit{VIDEO} & \textbf{82.9} & 41.4 & 50.0 & 45.2\\
+        \hline
+        \textit{LATE FUSION} & 78.5 & \textbf{50.6} & 50.1 & \textbf{48.8}\\
+        \hline
+        \textit{EARLY FUSION} & \textbf{82.9} & 43.6 & \textbf{50.2} & 45.7\\
+        \hline
+    \end{tabular}
+    \caption{Résultats de test des modèles. Le \textit{LATE} et \textit{EARLY FUSION} n'utilisent pas le modèle \textit{VIDEO}.}
+    \label{tab: test}
+\end{table}
+
+Les modèles unimodaux de texte et vidéo performent de manière très satisfaisantes selon leur accuracy, mais moins bien selon les autres métriques.
+Le modèle unimodal audio est moins bon globalement par rapport aux autres modèles unimodaux selon l'accuracy. 
+Cependant, il performe de manière satisfaisante uniformément sur les différentes métriques d'accuracy, de précision, de rappel et de $f_1$ score. 
+
+Le modèle unimodal de vidéo performe le mieux parmi les modèles unimodaux, en accuracy. Tandis que, les modèles multimodaux sont satisfaisants, voire même légèrement meilleurs globalement que les modèles unimodaux selon les différentes métriques. 
+Les modèles unimodaux ont une tendance à mieux performer pour l'une des métriques proposées, tandis que les modèles multimodaux ont des performances plus homogènes parmi les différentes métriques utilisées. 
+
+Selon l'accuracy, le modèle vidéo et le modèle \textit{EARLY FUSION} performent le mieux, celui-ci a également le meilleur score de rappel. Le modèle \textit{LATE FUSION} performe le mieux selon la précision et le $f_1$ score.

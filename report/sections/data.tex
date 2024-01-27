@@ -1,0 +1,44 @@
+Les données proviennent d'un ensemble de données multimodales, en français, composé de 26 dyades de 15 à 20 minutes, 
+corpus de données multimodales Paco-Cheese~\cite{paperswithcode-paco}.
+Chaque dyade est composée de deux personnes qui discutent d'un sujet donné. Les données sont composées de trois modalités : la vidéo,
+l'audio et le texte.
+
+Le but du projet est, étant donné un bout de texte, audio et/ou vidéo, d'être capable de détecter le changement de parole.
+On Peut alors voir ce problème comme un problème de classification de données à deux classes.
+
+Nous avons coupé les données sur les IPUs (Inter-Pausal Units, voir l'article~\cite{turn-taking} pour plus d'information),
+qui représentent des segments de parole séparés par des pauses
+de plus de 200ms. À partir de chaque IPUs, nous allons récupérer les fins du flux vidéo, audio et de transcription du discours.
+On a choisi de prendre les 20 derniers mots, les 2 dernières secondes de l'audio et les 10 dernières images du flux vidéos
+(appartenant aux deux personnes pour l'audio et la vidéo).
+
+Les données du flux vidéo ont été pré-process par un modèle permettant d'extraire les coordonnées de 709 points d'intérêts du 
+visage, appelés landmarks. On a alors pour chaque image du flux vidéo, une liste de coordonnées représentant les landmarks. Cependant, 
+du fait au grand nombre des données, leur analyse a été assez compliquée.
+\footnote{En effet, il y a 15 csv contenant chacun 30000 lignes et 700 colonnes. Ce qui fait que dans le dataloader, 
+la récupération d'un item (récupération des 2 fois 10 images) nécessité d'ouvrir, de parcourir le csv pour récupérer les bonnes lignes et
+de le refermer à la fin de l'itération (dû au fait qu'on prend chaque item de manières aléatoire). On a quand même pu accélérer le processus
+en utilisant la fonction \textit{skiprows} de \textit{pandas} qui permet de récupérer des lignes spécifiques dans un gros csv sans lire 
+toutes les lignes mais cela n'a pas été suffisant.}
+
+Chaque IPU est alors labellisé par un 0 ou un 1, selon s'il y a un changement de parole après ce moment. Il est important de noter que, 
+comme on peut le voir dans la Table~\ref{tab: label distribution}, le dataset est fortement déséquilibré.
+
+\begin{table}[H]
+    \centering
+    \begin{tabular}{|c|c|c|c|}
+        \hline
+        dataset & nombre d'IPUs & pourcentage de $0$ & pourcentage de $1$ \\
+        \hline
+        \textit{entraînement} & 8861 & 80.51 & 19.49\\
+        \hline
+        \textit{validation} & 3340 & 80.60 & 19.40\\
+        \hline
+        \textit{test} & 2974 & 82.85 & 17.15\\
+        \hline
+        \textit{tout} & 15175 & 80.99 & 19.01 \\
+        \hline
+    \end{tabular}
+    \caption{Nombre d'IPU et distribution des labels sur les différents dataset.}
+    \label{tab: label distribution}
+\end{table}

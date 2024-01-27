@@ -1,0 +1,31 @@
+__pycache__
+
+# data
+data/audio
+data/transcr
+data/video
+
+paco-cheese
+
+# test merge video csv
+create_video_json.py
+
+
+# yolo
+yolo*
+test_yolo*
+
+# report
+report.aux
+report.fdb_latexmk
+report.fls
+report.log
+report.synctex.gz
+report.bbl
+report.bcf
+report.out
+report.run.xml
+report.blg
+report.tex.*
+ref.bib.*
+report.toc

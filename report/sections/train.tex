@@ -1,0 +1,32 @@
+Nous avons entraîné les modèles unimodaux et le \textit{EARLY FUSION} sur 2 epochs, car ils utilisent tous (sauf \textit{VIDEO}), 
+un modèle pré-entraîné, comment BERT ou Wave2Vec. Nous avons ensuite gardé les poids de 
+l'epoch qui avait la plus basse loss de validation.
+
+Cependant, pour l'entraînement du modèle \textit{VIDEO}, dû à la grandeur des données et 
+leur temps de chargement dans la RAM, nous avons décidé de faire qu'une seule epoch
+\footnote{Une epoch durait plus de 2h30 sur google colab avec un GPU Nvidia T4.}, et de ne pas l'intégrer dans les modèles multimodaux.
+
+\subsection{Loss et poids}
+Nous avons utilisé la fonction de coût \textit{crossentropy} pour l'entrainement de modèles. 
+Cependant, du fait du grand déséquilibré des classes (voir Table~\ref{tab: label distribution}), nous avons ajouté des poids 
+sur les classes dans la fonction crossentropy. En effet, sans ces poids, les modèles avaient tendance à prédire toujours des $0$, ce 
+qui leur permetait d'optenir $80\%$ d'accuracy sans dificultés. Nous avons alors cherché des poids à mettre dans la loss de telle sorte 
+que les modèles ne prédisaient pas systématiquement qu'un seul label
+\footnote{Si on met un poids trop grand pour le label 1, même s'il y a que $20\%$ de $1$, les modèles vont prédire que des $1$.}.
+Nous avons alors trouvé et appliqué les poids $w_0 = 1$ et $w_1=3.9$. La loss se calcule alors avec l'équation~\ref{eq: loss}
+(avec des notations standards)~:
+
+\begin{equation}
+    L(x, y) = \frac{-1}{N} \sum_{n=0}^{N} w_0 (1-y_n) \log(1-x_n) + w_1 y_n \log(x_n)
+    \label{eq: loss}
+\end{equation}
+
+\subsection{Métriques}
+Pour comparer les résultats obtenus, nous avons utilisé la loss, mais aussi d'autres métriques,
+comme l'accuracy, la précision, le rappel et le $f_1$-score.
+
+Du fait du déséquilibre des classes, l'accuracy n'est pas la métrique la plus cruciale. On a donc aussi calculer la précision, le rappel et le $f_1$-score. Pour ces métriques, on a choisi de les calculer 
+sur chacune des classes et d'en faire la moyenne. Ainsi un rappel de $0.3$ signifiera que la moyenne du rappel sur
+la classe $0$ et la classe $1$ fait $0.3$. Nous avons choisi de faire cela, car si l'on regardait seulement 
+le rappel sur la classe $1$, le TRUE POSITIF (TP) est très souvent égal à $0$ et donc le rappel est nul. De même 
+pour la précision et de $f_1$-score, ce qui nous apportait moins d'informations.
